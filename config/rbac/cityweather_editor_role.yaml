@@ -1,0 +1,24 @@
+# permissions for end users to edit cityweathers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cityweather-editor-role
+rules:
+- apiGroups:
+  - weather.aputtur.com
+  resources:
+  - cityweathers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - weather.aputtur.com
+  resources:
+  - cityweathers/status
+  verbs:
+  - get

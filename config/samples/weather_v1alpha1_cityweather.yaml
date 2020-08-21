@@ -1,0 +1,12 @@
+apiVersion: weather.aputtur.com/v1alpha1
+kind: Cityweather
+metadata:
+  name: cityweather-sample
+spec:
+  # Add fields here
+  city:
+    - london
+    - chicago
+    - mumbai
+  days: 1
+
