@@ -1,0 +1,10 @@
+apiVersion: kudo.dev/v1alpha1
+kind: TestSuite
+startControlPlane: true
+testDirs:
+  - tests/e2e/
+crdDir: ./config/crd/bases/weather.aputtur.com_cityweathers.yaml
+commands:
+  - command: ./bin/manager
+    background: true
+timeout: 120

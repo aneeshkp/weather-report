@@ -1,0 +1,50 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Basic Install
+    operators.operatorframework.io/builder: operator-sdk-v1.0.0+git
+    operators.operatorframework.io/project_layout: go.kubebuilder.io/v2
+  name: weather-reprot.vX.Y.Z
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: Cityweather is the Schema for the cityweathers API
+      displayName: Cityweather
+      kind: Cityweather
+      name: cityweathers.weather.aputtur.com
+      version: v1alpha1
+  description: Weather Report By City
+  displayName: Weather Report
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      deployments: null
+    strategy: ""
+  installModes:
+  - supported: true
+    type: OwnNamespace
+  - supported: true
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - operator
+  - weather
+  links:
+  - name: Weather Reprot
+    url: https://weather-reprot.domain
+  maintainers:
+  - email: aneeshputtur@gmail.com
+    name: aneesh
+  maturity: alpha
+  provider:
+    name: aputtur
+  version: 0.0.0

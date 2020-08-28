@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <testsuite name="Controller Suite" tests="1" failures="0" errors="0" time="5.764">
+      <testcase name="Cwcontroller ResourceAccess CRD With one Resource  should update the status of the CR" classname="Controller Suite" time="1.004923503"></testcase>
+  </testsuite>

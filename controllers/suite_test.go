@@ -17,7 +17,10 @@ limitations under the License.
 package controllers
 
 import (
+	"flag"
 	"fmt"
+	//"github.com/onsi/ginkgo/config"
+	//"github.com/onsi/ginkgo/reporters"
 	"path/filepath"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"testing"
@@ -43,12 +46,30 @@ var cfg *rest.Config
 var k8sClient client.Client
 var testEnv *envtest.Environment
 
-func TestAPIs(t *testing.T) {
-	RegisterFailHandler(Fail)
+const (
+	JunitXmlFileName              = "test-network-function_junit.xml"
+	defaultCliArgValue            = ""
+	CnfCertificationTestSuiteName = "CNF Certification Test Suite"
+	junitFlagKey                  = "junit"
+	reportFlagKey                 = "report"
+)
 
+var junitPath *string
+var reportPath *string
+
+func init() {
+	junitPath = flag.String(junitFlagKey, defaultCliArgValue, "the path for the junit format report")
+	reportPath = flag.String(reportFlagKey, defaultCliArgValue, "the path of the report file containing details for failed tests")
+}
+
+func TestAPIs(t *testing.T) {
+	RunSpecs(t, "My ZTZest Suite")
+	RegisterFailHandler(Fail)
+	//junutReporter := reporters.NewJUnitReporter(fmt.Sprintf("../test-ginkgo-junit_%d.xml", config.GinkgoConfig.ParallelNode))
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{printer.NewlineReporter{}})
+	fmt.Println(junitPath)
 }
 
 var _ = BeforeSuite(func(done Done) {
@@ -71,7 +92,8 @@ var _ = BeforeSuite(func(done Done) {
 
 	// +kubebuilder:scaffold:scheme
 
-	//Aneesh
+	//Aneesh - since we are sending objects to cK8s and checking status etc
+	// we need a k8s manager and client
 	k8sManager, err := ctrl.NewManager(cfg, ctrl.Options{
 		Scheme:             scheme.Scheme,
 		MetricsBindAddress: "0",
@@ -91,6 +113,10 @@ var _ = BeforeSuite(func(done Done) {
 		panic(fmt.Sprint("Failed to start myReconciler :V", err))
 	}
 
+	// start a controller -
+	//import "sigs.k8s.io/controller-runtime/pkg/manager"
+	//Package manager is required to create Controllers and provides shared dependencies such as clients, caches, schemes, etc.
+	//Controllers must be started by calling Manager.Start.
 	go func() {
 		defer GinkgoRecover()
 		err = k8sManager.Start(ctrl.SetupSignalHandler())

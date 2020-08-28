@@ -1,0 +1,8 @@
+apiVersion: kudo.dev/v1alpha1
+kind: TestStep
+
+commands:
+- command:  ../../../testsetup.sh
+  ignoreFailure: true
+kubectl:
+  - apply -f ../../../samples/weather_v1alpha1_cityweather.yaml

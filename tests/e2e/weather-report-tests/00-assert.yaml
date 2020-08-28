@@ -1,0 +1,7 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-reprot-controller-manager
+  namespace: weather-reprot-system
+status:
+  readyReplicas: 1

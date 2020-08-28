@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"context"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"math/rand"
@@ -17,14 +19,36 @@ import (
 const timeout = time.Second * 60
 const interval = time.Second * 1
 
+var (
+	//name      string
+	//namespace string
+	//request   reconcile.Request
+	ctx     = context.Background()
+	fetched = &weatherv1alpha1.Cityweather{}
+)
+
+/*var _ = Describe("deployment Resource ", func() {
+
+	dep := GetDeployment()
+	Context("Test Deployment Resource", func() {
+		It("Should create  deployment ", func() {
+			Expect(k8sClient.Create(ctx, dep)).Should(Succeed())
+		})
+		It("Should have readyReplicas=1", func() {
+			depInstance := &appsv1.Deployment{}
+			By("Expecting deployment  created")
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: dep.Name, Namespace: "default"}, depInstance)
+				return err
+			}, timeout, interval).ShouldNot(HaveOccurred())
+			Expect(depInstance.Status.ReadyReplicas).To(Equal(1))
+
+		})
+	})
+
+})*/
 var _ = Describe("Cwcontroller", func() {
-	var (
-		//name      string
-		//namespace string
-		//request   reconcile.Request
-		ctx     = context.Background()
-		fetched = &weatherv1alpha1.Cityweather{}
-	)
+
 	BeforeEach(func() {
 		/*name = "test-resource"
 		namespace = "default"
@@ -36,43 +60,89 @@ var _ = Describe("Cwcontroller", func() {
 		}*/
 	})
 	//var _ = Describe("")
-	Describe("ResourceAccess CRD", func() {
+	Describe("Weather Report Operator", func() {
 		var (
 			instance *weatherv1alpha1.Cityweather
 		)
-		Context("With one Resource ", func() {
-			It("should update the status of the CR", func() {
+		Context("Initially  ", func() {
+			It("Should create CR Succeed ", func() {
 				instance = createInstanceInCluster()
 				Expect(k8sClient.Create(ctx, instance)).Should(Succeed())
-				//time.Sleep(time.Second * 5)
-
-				//check CRD was created okay
-				By("Expecting submitted")
+			})
+			It("Should created CR exist  ", func() {
+				By("Expecting kind created")
 				Eventually(func() error {
 					err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: "default"}, fetched)
 					return err
 				}, timeout, interval).ShouldNot(HaveOccurred())
-
-				/*pod1 := CreatePod(instance, instance.Spec.City[0])
-				By("Expecting submitted")
-				Eventually(func() error {
-					err := k8sClient.Create(ctx, pod1)
-					return err
-				}, timeout, interval).ShouldNot(HaveOccurred())*/
-
-				//check pod is created
-				pod2 := &corev1.Pod{}
-				Eventually(func() error {
-					err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name + "london", Namespace: "default"}, pod2)
-					return err
-				}, timeout, interval).ShouldNot(HaveOccurred())
-
-				Expect(fetched.Name).To(Equal("weather-report"))
-				Expect(len(fetched.Status.City)).To(Equal(2))
-				//Expect(fetched.Spec.City).To(Equal(""))
-				//Expect(fetched.Status.City).To(Equal(""))
-
 			})
+
+			Context("When CR is Exists    ", func() {
+				It("Should create Pod(s) ", func() {
+					cityPod := &corev1.Pod{}
+					Eventually(func() error {
+						err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name + "london", Namespace: "default"}, cityPod)
+						return err
+					}, timeout, interval).ShouldNot(HaveOccurred())
+					Expect(cityPod.Name).To(Equal(instance.Name + "london"))
+				})
+			})
+			Context("Once Pod exists", func() {
+				It("Should update CR  status ", func() {
+					Eventually(func() error {
+						err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: "default"}, fetched)
+						return err
+					}, timeout, interval).ShouldNot(HaveOccurred())
+					//CHECK CR STATUS
+					Expect(len(fetched.Status.City)).To(Equal(2))
+				})
+			})
+			Context("Update CR to remove london and add chicago and austin", func() {
+				It("Should update new cr", func() {
+					fetched.Spec.City = []string{"newyork", "chicago", "austin"}
+					Eventually(func() error {
+						err := k8sClient.Update(ctx, fetched)
+						return err
+					}, timeout, interval).ShouldNot(HaveOccurred())
+				})
+				It("Should have new city in spec  ", func() {
+					Eventually(func() error {
+						err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: "default"}, fetched)
+						return err
+					}, timeout, interval).ShouldNot(HaveOccurred())
+					Expect(len(fetched.Spec.City)).To(Equal(3))
+				})
+				//CHECK CR STATUS
+			})
+			Context("Once CR is updated", func() {
+				It("should delete london pod", func() {
+					londonPod := &corev1.Pod{}
+					Eventually(func() error {
+						err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name + "london", Namespace: "default"}, londonPod)
+						return err
+					}, timeout, interval).ShouldNot(HaveOccurred())
+					Expect(londonPod).ToNot(BeNil())
+				})
+				It("should create new austin pod", func() {
+					austinPod := &corev1.Pod{}
+					Eventually(func() error {
+						err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name + "austin", Namespace: "default"}, austinPod)
+						return err
+					}, timeout, interval).ShouldNot(HaveOccurred())
+					Expect(austinPod).ToNot(BeNil())
+				})
+				It("Should update CR status with new pods ", func() {
+					Eventually(func() error {
+						err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: "default"}, fetched)
+						return err
+					}, timeout, interval).ShouldNot(HaveOccurred())
+					//CHECK CR STATUS
+					Expect(len(fetched.Status.City)).To(Equal(3))
+					Expect(fetched.Status.City).Should((HaveKey("austin")))
+					Expect(fetched.Status.City).Should((HaveKey("chicago")))
+				})
+			})
+
 			/*BeforeEach(func() {
 				// Create a new resource using k8sClient.Create()
 				// I'm just going to assume you've done this in
@@ -126,4 +196,31 @@ func randString() string {
 		b.WriteRune(chars[rand.Intn(len(chars))])
 	}
 	return b.String()
+}
+
+// Define the desired Deployment object1
+func GetDeployment() *appsv1.Deployment {
+	deploy1 := &appsv1.Deployment{
+		ObjectMeta: v1.ObjectMeta{
+			Name:      "deployment1",
+			Namespace: "default",
+		},
+		Spec: appsv1.DeploymentSpec{
+			Selector: &v1.LabelSelector{
+				MatchLabels: map[string]string{"deployment": "deployment1-deployment"},
+			},
+			Template: corev1.PodTemplateSpec{
+				ObjectMeta: v1.ObjectMeta{Labels: map[string]string{"deployment": "deployment1-deployment"}},
+				Spec: corev1.PodSpec{
+					Containers: []corev1.Container{
+						{
+							Name:  "nginx",
+							Image: "nginx",
+						},
+					},
+				},
+			},
+		},
+	}
+	return deploy1
 }
