@@ -19,6 +19,9 @@ package controllers
 import (
 	"flag"
 	"fmt"
+	"github.com/onsi/ginkgo/config"
+	"github.com/onsi/ginkgo/reporters"
+
 	//"github.com/onsi/ginkgo/config"
 	//"github.com/onsi/ginkgo/reporters"
 	"path/filepath"
@@ -31,7 +34,6 @@ import (
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
-	"sigs.k8s.io/controller-runtime/pkg/envtest/printer"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
@@ -47,9 +49,9 @@ var k8sClient client.Client
 var testEnv *envtest.Environment
 
 const (
-	JunitXmlFileName              = "test-network-function_junit.xml"
+	JunitXmlFileName              = "my-test.xml"
 	defaultCliArgValue            = ""
-	CnfCertificationTestSuiteName = "CNF Certification Test Suite"
+	CnfCertificationTestSuiteName = "Test Suite"
 	junitFlagKey                  = "junit"
 	reportFlagKey                 = "report"
 )
@@ -63,13 +65,13 @@ func init() {
 }
 
 func TestAPIs(t *testing.T) {
-	RunSpecs(t, "My ZTZest Suite")
+	RunSpecs(t, "My Testt Suite")
 	RegisterFailHandler(Fail)
-	//junutReporter := reporters.NewJUnitReporter(fmt.Sprintf("../test-ginkgo-junit_%d.xml", config.GinkgoConfig.ParallelNode))
+	junutReporter := reporters.NewJUnitReporter(fmt.Sprintf("../test-ginkgo-junit_%d.xml", config.GinkgoConfig.ParallelNode))
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
-		[]Reporter{printer.NewlineReporter{}})
-	fmt.Println(junitPath)
+		[]Reporter{junutReporter})
+
 }
 
 var _ = BeforeSuite(func(done Done) {
@@ -79,6 +81,7 @@ var _ = BeforeSuite(func(done Done) {
 	testEnv = &envtest.Environment{
 		CRDDirectoryPaths:        []string{filepath.Join("..", "config", "crd", "bases")},
 		AttachControlPlaneOutput: true,
+		//UseExistingCluster: true,
 	}
 
 	var err error

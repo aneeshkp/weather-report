@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <testsuite name="Controller Suite" tests="1" failures="0" errors="0" time="5.764">
-      <testcase name="Cwcontroller ResourceAccess CRD With one Resource  should update the status of the CR" classname="Controller Suite" time="1.004923503"></testcase>
+  <testsuite name="Controller Suite" tests="9" failures="0" errors="0" time="8.074">
+      <testcase name="Cwcontroller Weather Report Operator Initially   Should create CR Successfully " classname="Controller Suite" time="0.004352569"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Should created CR exist" classname="Controller Suite" time="1.000234937"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   When CR is Exists     Should create Pod(s) " classname="Controller Suite" time="2.1302e-05"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Once Pod exists Should update CR  status " classname="Controller Suite" time="7.069e-06"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Update CR to remove london and add chicago and austin Should update new cr" classname="Controller Suite" time="0.002054013"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Update CR to remove london and add chicago and austin Should have new city in the spec  " classname="Controller Suite" time="1.7537e-05"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated should delete london pod" classname="Controller Suite" time="1.088e-05"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated should create new austin pod" classname="Controller Suite" time="1.000389375"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated Should update CR status with new pods " classname="Controller Suite" time="4.0828e-05"></testcase>
   </testsuite>

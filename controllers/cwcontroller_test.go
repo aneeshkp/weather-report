@@ -65,11 +65,11 @@ var _ = Describe("Cwcontroller", func() {
 			instance *weatherv1alpha1.Cityweather
 		)
 		Context("Initially  ", func() {
-			It("Should create CR Succeed ", func() {
+			It("Should create CR Successfully ", func() {
 				instance = createInstanceInCluster()
 				Expect(k8sClient.Create(ctx, instance)).Should(Succeed())
 			})
-			It("Should created CR exist  ", func() {
+			It("Should created CR exist", func() {
 				By("Expecting kind created")
 				Eventually(func() error {
 					err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: "default"}, fetched)
@@ -105,7 +105,7 @@ var _ = Describe("Cwcontroller", func() {
 						return err
 					}, timeout, interval).ShouldNot(HaveOccurred())
 				})
-				It("Should have new city in spec  ", func() {
+				It("Should have new city in the spec  ", func() {
 					Eventually(func() error {
 						err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: "default"}, fetched)
 						return err
@@ -140,6 +140,7 @@ var _ = Describe("Cwcontroller", func() {
 					Expect(len(fetched.Status.City)).To(Equal(3))
 					Expect(fetched.Status.City).Should((HaveKey("austin")))
 					Expect(fetched.Status.City).Should((HaveKey("chicago")))
+					Expect(fetched.Status.City).Should((HaveKey("newyork")))
 				})
 			})
 

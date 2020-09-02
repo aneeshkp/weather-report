@@ -7,6 +7,5 @@ spec:
   city:
     - london
     - chicago
-    - mumbai
   days: 1
 
