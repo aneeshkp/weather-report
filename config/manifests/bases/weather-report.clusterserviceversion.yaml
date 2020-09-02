@@ -6,7 +6,7 @@ metadata:
     capabilities: Basic Install
     operators.operatorframework.io/builder: operator-sdk-v1.0.0+git
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v2
-  name: weather-reprot.vX.Y.Z
+  name: weather-report.vX.Y.Z
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -39,8 +39,8 @@ spec:
   - operator
   - weather
   links:
-  - name: Weather Reprot
-    url: https://weather-reprot.domain
+  - name: Weather Report
+    url: https://weather-report.domain
   maintainers:
   - email: aneeshputtur@gmail.com
     name: aneesh

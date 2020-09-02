@@ -27,8 +27,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	weatherv1alpha1 "github.com/aneeshkp/weather-reprot/api/v1alpha1"
-	"github.com/aneeshkp/weather-reprot/controllers"
+	weatherv1alpha1 "github.com/aneeshkp/weather-report/api/v1alpha1"
+	"github.com/aneeshkp/weather-report/controllers"
 	// +kubebuilder:scaffold:imports
 )
 

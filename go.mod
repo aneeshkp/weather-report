@@ -1,4 +1,4 @@
-module github.com/aneeshkp/weather-reprot
+module github.com/aneeshkp/weather-report
 
 go 1.13
 

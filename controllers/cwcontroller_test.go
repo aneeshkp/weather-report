@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	weatherv1alpha1 "github.com/aneeshkp/weather-reprot/api/v1alpha1"
+	weatherv1alpha1 "github.com/aneeshkp/weather-report/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/types"
 )
 

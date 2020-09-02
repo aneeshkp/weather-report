@@ -33,7 +33,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	weatherv1alpha1 "github.com/aneeshkp/weather-reprot/api/v1alpha1"
+	weatherv1alpha1 "github.com/aneeshkp/weather-report/api/v1alpha1"
 )
 
 // CityweatherReconciler reconciles a Cityweather object
