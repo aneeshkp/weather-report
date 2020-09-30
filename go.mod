@@ -3,7 +3,6 @@ module github.com/aneeshkp/weather-report
 go 1.13
 
 require (
-	cloud.google.com/go v0.38.0
 	github.com/go-logr/logr v0.1.0
 	github.com/onsi/ginkgo v1.11.0
 	github.com/onsi/gomega v1.8.1

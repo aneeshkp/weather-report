@@ -65,12 +65,12 @@ func init() {
 }
 
 func TestAPIs(t *testing.T) {
-	RunSpecs(t, "My Testt Suite")
+	RunSpecs(t, "My Test Suite")
 	RegisterFailHandler(Fail)
-	junutReporter := reporters.NewJUnitReporter(fmt.Sprintf("../test-ginkgo-junit_%d.xml", config.GinkgoConfig.ParallelNode))
+	junitReporter := reporters.NewJUnitReporter(fmt.Sprintf("../test-ginkgo-junit_%d.xml", config.GinkgoConfig.ParallelNode))
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
-		[]Reporter{junutReporter})
+		[]Reporter{junitReporter})
 
 }
 
@@ -113,7 +113,7 @@ var _ = BeforeSuite(func(done Done) {
 		Client: k8sManager.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("Cityweather"),
 	}).SetupWithManager(k8sManager); err != nil {
-		panic(fmt.Sprint("Failed to start myReconciler :V", err))
+		panic(fmt.Sprint("Failed to start myReconciler :V", err.Error()))
 	}
 
 	// start a controller -

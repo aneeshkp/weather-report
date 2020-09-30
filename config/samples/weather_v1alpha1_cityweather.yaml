@@ -7,5 +7,6 @@ spec:
   city:
     - london
     - chicago
+    - newyork
   days: 1
 

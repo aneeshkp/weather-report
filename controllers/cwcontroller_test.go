@@ -121,7 +121,7 @@ var _ = Describe("Cwcontroller", func() {
 						err := k8sClient.Get(ctx, types.NamespacedName{Name: instance.Name + "london", Namespace: "default"}, londonPod)
 						return err
 					}, timeout, interval).ShouldNot(HaveOccurred())
-					Expect(londonPod).ToNot(BeNil())
+					Expect(londonPod.Status.Phase).NotTo(Equal(corev1.PodRunning))
 				})
 				It("should create new austin pod", func() {
 					austinPod := &corev1.Pod{}

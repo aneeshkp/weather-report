@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <testsuite name="Controller Suite" tests="9" failures="0" errors="0" time="7.626">
-      <testcase name="Cwcontroller Weather Report Operator Initially   Should create CR Successfully " classname="Controller Suite" time="0.005091168"></testcase>
-      <testcase name="Cwcontroller Weather Report Operator Initially   Should created CR exist" classname="Controller Suite" time="1.000163797"></testcase>
-      <testcase name="Cwcontroller Weather Report Operator Initially   When CR is Exists     Should create Pod(s) " classname="Controller Suite" time="2.025e-05"></testcase>
-      <testcase name="Cwcontroller Weather Report Operator Initially   Once Pod exists Should update CR  status " classname="Controller Suite" time="8.018e-06"></testcase>
-      <testcase name="Cwcontroller Weather Report Operator Initially   Update CR to remove london and add chicago and austin Should update new cr" classname="Controller Suite" time="0.001812984"></testcase>
-      <testcase name="Cwcontroller Weather Report Operator Initially   Update CR to remove london and add chicago and austin Should have new city in the spec  " classname="Controller Suite" time="1.3479e-05"></testcase>
-      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated should delete london pod" classname="Controller Suite" time="2.5772e-05"></testcase>
-      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated should create new austin pod" classname="Controller Suite" time="1.000203793"></testcase>
-      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated Should update CR status with new pods " classname="Controller Suite" time="2.7612e-05"></testcase>
+  <testsuite name="Controller Suite" tests="9" failures="0" errors="0" time="7.686">
+      <testcase name="Cwcontroller Weather Report Operator Initially   Should create CR Successfully " classname="Controller Suite" time="0.006937093"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Should created CR exist" classname="Controller Suite" time="1.000211083"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   When CR is Exists     Should create Pod(s) " classname="Controller Suite" time="1.7841e-05"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Once Pod exists Should update CR  status " classname="Controller Suite" time="6.16e-06"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Update CR to remove london and add chicago and austin Should update new cr" classname="Controller Suite" time="0.004584269"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Update CR to remove london and add chicago and austin Should have new city in the spec  " classname="Controller Suite" time="2.2885e-05"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated should delete london pod" classname="Controller Suite" time="2.5116e-05"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated should create new austin pod" classname="Controller Suite" time="1.000201243"></testcase>
+      <testcase name="Cwcontroller Weather Report Operator Initially   Once CR is updated Should update CR status with new pods " classname="Controller Suite" time="2.4657e-05"></testcase>
   </testsuite>
