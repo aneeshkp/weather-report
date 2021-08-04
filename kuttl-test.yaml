@@ -1,10 +1,10 @@
-apiVersion: kudo.dev/v1alpha1
+apiVersion: kuttl.dev/v1beta1
 kind: TestSuite
 #startControlPlane: true
 startKIND: true
 kindNodeCache: true
 testDirs:
-  - tests/e2e/
+- tests/e2e/
 crdDir: ./config/crd/bases/weather.aputtur.com_cityweathers.yaml
 #commands:
 #  - command: ./bin/manager

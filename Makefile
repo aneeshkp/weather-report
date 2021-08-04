@@ -1,3 +1,11 @@
+timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
+IMG ?= docker.io/controller:$(timestamp)
+INIT_IMG ?= docker.io/initcontainer:1
+
+KIND_CLUSTER_NAME ?= "psccontroller"
+K8S_NODE_IMAGE ?= v1.21.1
+
+
 # Current Operator version
 VERSION ?= 0.0.1
 # Default bundle image tag
@@ -26,6 +34,20 @@ GOBIN=$(shell go env GOBIN)
 endif
 
 all: manager
+
+deploy-kind: kind-start kind-load-img deploy manifests install kustomize-deployment
+
+kind-start:
+ifeq (1, $(shell kind get clusters | grep ${KIND_CLUSTER_NAME} | wc -l))
+	@echo "Cluster already exists"
+else
+	@echo "Creating Cluster"
+	kind create cluster --name ${KIND_CLUSTER_NAME} --image=kindest/node:${K8S_NODE_IMAGE}
+endif
+
+kind-load-img: docker-build
+	@echo "Loading image into kind"
+	kind load docker-image ${IMG} --name ${KIND_CLUSTER_NAME} --loglevel "trace"
 
 # Run tests
 test: generate fmt vet manifests
