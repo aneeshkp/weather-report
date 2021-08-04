@@ -19,14 +19,16 @@ package controllers
 import (
 	"flag"
 	"fmt"
+
 	"github.com/onsi/ginkgo/config"
 	"github.com/onsi/ginkgo/reporters"
 
 	//"github.com/onsi/ginkgo/config"
 	//"github.com/onsi/ginkgo/reporters"
 	"path/filepath"
-	ctrl "sigs.k8s.io/controller-runtime"
 	"testing"
+
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -65,8 +67,8 @@ func init() {
 }
 
 func TestAPIs(t *testing.T) {
-	RunSpecs(t, "My Test Suite")
 	RegisterFailHandler(Fail)
+	RunSpecs(t, "My Test Suite")
 	junitReporter := reporters.NewJUnitReporter(fmt.Sprintf("../test-ginkgo-junit_%d.xml", config.GinkgoConfig.ParallelNode))
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
@@ -78,10 +80,11 @@ var _ = BeforeSuite(func(done Done) {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
+	useCluster := true
 	testEnv = &envtest.Environment{
 		CRDDirectoryPaths:        []string{filepath.Join("..", "config", "crd", "bases")},
 		AttachControlPlaneOutput: true,
-		//UseExistingCluster: true,
+		UseExistingCluster:       &useCluster,
 	}
 
 	var err error
